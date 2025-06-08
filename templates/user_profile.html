@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-4">{{ user['username'] }}'s Profile</h1>
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col">
+            <h2>Uploaded Images</h2>
+        </div>
+    </div>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for image in images %}
+            <div class="col fade-in">
+                <div class="card image-card h-100">
+                    <img src="{{ url_for('static', filename='uploads/' + image['filename']) }}" 
+                         class="card-img-top" alt="{{ image['filename'] }}">
+                    <div class="card-body">
+                        {% if image['caption'] %}
+                            <p class="card-text">{{ image['caption'] }}</p>
+                        {% endif %}
+                        <div class="text-muted small text-end">
+                            {{ image['upload_date']|format_datetime }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">No images uploaded by this user yet.</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+

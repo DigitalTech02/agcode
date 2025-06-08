@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm fade-in">
+                <div class="card-body p-4">
+                    <h1 class="card-title text-center mb-4">Upload New Image</h1>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Select Image</label>
+                            <input class="form-control" type="file" id="file" name="file" accept=".png,.jpg,.jpeg,.gif">
+                            <div class="form-text">Allowed file types: PNG, JPG, JPEG, GIF</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="caption" class="form-label">Caption (optional)</label>
+                            <textarea class="form-control" id="caption" name="caption" rows="3"></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

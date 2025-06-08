@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-4">Users</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm fade-in">
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for user in users %}
+                            <a href="{{ url_for('user_profile', user_id=user['id']) }}" 
+                               class="list-group-item list-group-item-action">
+                                {{ user['username'] }}
+                            </a>
+                        {% else %}
+                            <div class="list-group-item">No users registered yet.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
