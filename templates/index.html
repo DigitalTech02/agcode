@@ -1,42 +1,60 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="row mb-4">
-        <div class="col">
-            <h1 class="display-4">Image Timeline</h1>
+<div class="page-header text-center text-md-start fade-in">
+    <h1>Discover Beautiful Photography</h1>
+    <p class="lead">Explore a curated collection of stunning images from talented photographers around the world.</p>
+</div>
+
+<div class="row">
+    {% for image in images %}
+    <div class="col-md-6 col-lg-4 mb-4 fade-in">
+        <div class="image-card h-100">
+            <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" alt="{{ image.caption }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ image.caption }}</h5>
+                <p class="card-text">{{ image.caption }}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    <i class="fas fa-user me-1"></i>
+                    <a href="{{ url_for('user_profile', user_id=image.user_id) }}" class="text-decoration-none">
+                        {{ image.username }}
+                    </a>
+                </small>
+                <small class="text-muted">
+                    <i class="far fa-calendar-alt me-1"></i>
+                    {{ image.upload_date|format_datetime }}
+                </small>
+            </div>
         </div>
     </div>
-    
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {% for image in images %}
-            <div class="col fade-in">
-                <div class="card image-card h-100">
-                    <img src="{{ url_for('static', filename='uploads/' + image['filename']) }}" 
-                         class="card-img-top" alt="{{ image['filename'] }}">
-                    <div class="card-body">
-                        {% if image['caption'] %}
-                            <p class="card-text">{{ image['caption'] }}</p>
-                        {% endif %}
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="text-muted small">
-                                <a href="{{ url_for('user_profile', user_id=image['user_id']) }}" class="text-decoration-none">
-                                    <strong>{{ image['username'] }}</strong>
-                                </a>
-                            </div>
-                            <div class="text-muted small">
-                                {{ image['upload_date']|format_datetime }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            <div class="col-12">
-                <div class="alert alert-info">No images uploaded yet.</div>
-            </div>
-        {% endfor %}
+    {% else %}
+    <div class="col-12 text-center py-5 fade-in">
+        <div class="py-5">
+            <i class="fas fa-camera fa-4x mb-3 text-muted"></i>
+            <h3>No images yet</h3>
+            <p class="text-muted">Be the first to upload an image!</p>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('upload_image') }}" class="btn btn-gradient mt-3">
+                <i class="fas fa-upload me-2"></i>Upload Image
+            </a>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-gradient mt-3">
+                <i class="fas fa-sign-in-alt me-2"></i>Login to Upload
+            </a>
+            {% endif %}
+        </div>
     </div>
+    {% endfor %}
+</div>
+
+{% if images %}
+<div class="text-center mt-4 mb-5 fade-in">
+    <a href="{{ url_for('upload_image') }}" class="btn btn-gradient btn-lg">
+        <i class="fas fa-upload me-2"></i>Share Your Photos
+    </a>
+</div>
+{% endif %}
 {% endblock %}
-
-
 
 

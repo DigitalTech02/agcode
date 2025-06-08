@@ -1,29 +1,64 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <div class="card shadow-sm fade-in">
-                <div class="card-body p-4">
-                    <h1 class="card-title text-center mb-4">Upload New Image</h1>
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="page-header text-center fade-in">
+            <h1>Upload Your Photo</h1>
+            <p>Share your best shots with our community</p>
+        </div>
+        
+        <div class="card shadow fade-in">
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="caption" class="form-label fw-medium">Caption</label>
+                        <input type="text" class="form-control form-control-lg" id="caption" name="caption">
+                    </div>
                     
-                    <form method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="file" class="form-label">Select Image</label>
-                            <input class="form-control" type="file" id="file" name="file" accept=".png,.jpg,.jpeg,.gif">
-                            <div class="form-text">Allowed file types: PNG, JPG, JPEG, GIF</div>
+                    <div class="mb-4">
+                        <label for="file" class="form-label fw-medium">Choose Image</label>
+                        <input type="file" class="form-control" id="file" name="file" accept="image/*" required>
+                        <div class="form-text">Supported formats: JPG, PNG, GIF. Max size: 5MB</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-medium">Preview</label>
+                        <div class="border rounded p-2 text-center bg-light" id="preview-container">
+                            <img id="image-preview" class="img-fluid" src="#" alt="Image Preview" style="display: none; max-height: 300px;">
+                            <p class="text-muted my-5" id="preview-placeholder">Image preview will appear here</p>
                         </div>
-                        <div class="mb-3">
-                            <label for="caption" class="form-label">Caption (optional)</label>
-                            <textarea class="form-control" id="caption" name="caption" rows="3"></textarea>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-gradient btn-lg">Upload Photo</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    // Preview image before upload
+    document.getElementById('file').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            const preview = document.getElementById('image-preview');
+            const placeholder = document.getElementById('preview-placeholder');
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 {% endblock %}
+
+
 
 
